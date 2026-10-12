@@ -3,39 +3,215 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Смачно і крапка</title>
+<title>Смачно і крапка — доставка улюблених страв</title>
+<meta name="description" content="Замовляйте соковиті бургери, картоплю та снеки з доставкою або забирайте у найближчому ресторані.">
+<link rel="icon" type="image/jpeg" href="assets/img/logo.jpg">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <link rel="stylesheet" href="css/style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
 </head>
-<body>
+<body id="top">
 
-<header>
-  <h1>Смачно і крапка</h1>
-  <nav>
-    <a href="#">Головна</a>
-    <a href="#">Меню</a>
-    <a href="#">Контакти</a>
+<!-- шапка -->
+<header class="header">
+  <div class="header-inner">
+    <a href="#top" class="logo">
+      <img class="logo-img" src="assets/img/logo.jpg" alt="Смачно і крапка" width="80" height="80">
+      <span class="logo-text">Смачно<br><span class="logo-accent">і крапка.</span></span>
+    </a>
+    <nav class="nav">
+      <a href="#menu">Меню</a>
+      <a href="#offers">Акції</a>
+      <a href="#restaurants">Ресторани</a>
+    </nav>
+    <div class="header-actions">
+      <button class="btn btn-primary" id="cartOpen">
+        Кошик <span class="cart-badge" id="cartBadge" hidden>0</span>
+      </button>
+      <button class="btn btn-icon btn-burger" id="burgerBtn">☰</button>
+    </div>
+  </div>
+  <nav class="mobile-nav" id="mobileNav">
+    <a href="#menu">Меню</a>
+    <a href="#offers">Акції</a>
+    <a href="#restaurants">Ресторани</a>
   </nav>
 </header>
 
 <main>
-  <h2>Ласкаво просимо!</h2>
-  <p>Це сайт нашого ресторану.</p>
+  <!-- головний банер -->
+  <section class="hero">
+    <img src="assets/img/hero-burger.jpg" alt="Бургер Чікен Кранч із картоплею фрі" class="hero-img" width="1600" height="1008">
+    <div class="hero-shade"></div>
+    <div class="hero-inner">
+      <div class="hero-content">
+        <span class="hero-pill">Новий смак сезону</span>
+        <h1>Хрумко.<br><span class="accent">Соковито.</span><br>І крапка.</h1>
+        <p class="hero-sub">Спробуй новий Чікен Кранч із подвійним сиром та фірмовим BBQ соусом.</p>
+        <div class="hero-btns">
+          <button class="btn btn-primary btn-lg" data-scroll="#menu">Замовити зараз</button>
+          <button class="btn btn-hero-ghost btn-lg" data-scroll="#menu">Дивитися меню</button>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <img class="hero-photo" src="assets/img/hero-burger.jpg" alt="Наш бургер">
+  <!-- меню -->
+  <section id="menu" class="section">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">Обирай своє</p>
+        <h2>Меню</h2>
+      </div>
+      <p class="section-note">Готуємо після замовлення, щоб кожен шматочок був гарячим і свіжим.</p>
+    </div>
+    <div class="tabs" id="tabs">
+      <button class="btn btn-tab active" data-cat="all">Усе меню</button>
+      <button class="btn btn-tab" data-cat="Бургери">Бургери</button>
+      <button class="btn btn-tab" data-cat="Комбо">Комбо</button>
+      <button class="btn btn-tab" data-cat="Снеки">Снеки</button>
+    </div>
+    <div class="grid" id="grid"></div>
+  </section>
 
-  <p><a class="btn-link" href="#menu">Дивитися меню</a></p>
+  <!-- акції -->
+  <section id="offers" class="offers">
+    <div class="offers-inner">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Більше смаку</p>
+          <h2>Акції для своїх</h2>
+        </div>
+        <span class="offers-hint">Оновлюємо щотижня</span>
+      </div>
+      <div class="offers-grid">
+        <article class="offer offer-dark">
+          <div class="offer-txt">
+            <span class="offer-top">Тільки в застосунку</span>
+            <h3>−50% на другий бургер</h3>
+            <p>Щодня після 17:00. Обирай два — плати менше.</p>
+            <button class="btn btn-light" data-add="1">Скористатися</button>
+          </div>
+          <img src="assets/img/menu-burger.jpg" alt="Подвійний Фірмовий бургер" loading="lazy" class="offer-img r1">
+        </article>
+        <article class="offer offer-beige">
+          <div class="offer-txt">
+            <span class="offer-top">Смачний бонус</span>
+            <h3>Картопля у подарунок</h3>
+            <p>До першого замовлення від 300 ₴ з промокодом СМАЧНО.</p>
+            <button class="btn btn-primary" data-add="3">Замовити</button>
+          </div>
+          <img src="assets/img/menu-fries.jpg" alt="Картопля фрі" loading="lazy" class="offer-img r2">
+        </article>
+      </div>
+    </div>
+  </section>
 
-  <h2 id="menu">Меню</h2>
-  <div id="grid"></div>
+  <!-- ресторани з картою -->
+  <section id="restaurants" class="section">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">Завжди поруч</p>
+        <h2>Наші ресторани</h2>
+      </div>
+      <p class="section-note" id="geoNote">Шукаємо ресторани поруч з вами…</p>
+    </div>
+    <div class="rest-box">
+      <div class="rest-left">
+        <div class="search-wrap">
+          <input id="restSearch" placeholder="Пошук ресторану">
+        </div>
+        <!-- TODO: зробити ручне введення села -->
 
-  <h2>Контакти</h2>
-  <p>вул. Смачна, 12</p>
+        <div class="rest-list" id="restList"></div>
+        <button class="btn btn-outline btn-full" id="geoBtn">Визначити місце по GPS</button>
+      </div>
+      <div class="map-wrap">
+        <div id="map"></div>
+        <div class="map-card">
+          <p class="map-label">Обраний ресторан</p>
+          <div class="map-row">
+            <div>
+              <p class="map-name" id="mapName">Шукаємо…</p>
+              <p class="map-addr" id="mapAddr">Визначаємо ваше місце</p>
+            </div>
+            <button class="btn btn-primary" id="orderHere">Замовити сюди</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </main>
 
-<footer>
-  <p>© 2026 Смачно і крапка</p>
+<!-- підвал -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div>
+      <a href="#top" class="logo">
+        <img class="logo-img" src="assets/img/logo.jpg" alt="Смачно і крапка" width="80" height="80">
+        <span class="logo-text">Смачно<br><span class="logo-accent">і крапка.</span></span>
+      </a>
+      <p class="footer-note">Смак, який об’єднує. Щодня готуємо улюблені страви для вас.</p>
+    </div>
+    <div class="footer-links">
+      <a href="#menu">Меню</a><a href="#offers">Акції</a><a href="#restaurants">Ресторани</a><a href="#">Підтримка</a>
+    </div>
+    <p class="footer-copy">© 2026 Смачно і крапка</p>
+  </div>
 </footer>
 
+<!-- нижня панель на телефоні -->
+<nav class="tabbar">
+  <a href="#menu">Меню</a>
+  <a href="#offers">Акції</a>
+  <a href="#restaurants">Ресторани</a>
+  <button id="tabCart">Кошик <span class="tab-badge" id="tabBadge" hidden>0</span></button>
+</nav>
+
+<!-- кошик -->
+<div class="overlay" id="overlay" hidden></div>
+<aside class="drawer" id="drawer">
+  <div class="drawer-head">
+    <div>
+      <h2 id="drawerTitle">Кошик</h2>
+      <p class="drawer-sub" id="drawerSub">порожньо</p>
+    </div>
+    <button class="btn btn-icon" id="drawerClose">✕</button>
+  </div>
+
+  <!-- все в одному місці: товари + дані + кнопка -->
+  <div class="drawer-body" id="cartView">
+    <div id="cartList" class="cart-list"></div>
+    <form class="drawer-foot" id="orderForm" hidden>
+      <div class="total-lines">
+        <div class="total-row small"><span>Доставка</span><b id="deliveryVal">—</b></div>
+        <div class="total-row"><span>Разом</span><b id="cartTotal">0 ₴</b></div>
+      </div>
+      <label class="field">Ваше ім’я<input required id="fName" placeholder="Як до вас звертатися?"></label>
+      <label class="field">Номер телефону<input required id="fPhone" placeholder="+380 __ ___ __ __"></label>
+      <label class="field">Адреса<input required id="fAddr" placeholder="Вулиця, будинок, квартира"></label>
+      <button class="btn btn-primary btn-full btn-lg" type="submit">Замовити</button>
+      <p class="delivery-hint">Доставка 49 ₴ · від 400 ₴ — безкоштовно</p>
+    </form>
+    <div class="cart-empty" id="cartEmpty">
+      <b>Кошик порожній</b>
+      <p>Додайте щось смачненьке з меню</p>
+      <button class="btn btn-primary" data-scroll="#menu" data-close="1">Перейти до меню</button>
+    </div>
+  </div>
+
+  <div class="drawer-body success" id="successView" hidden>
+    <span class="success-check">✓</span>
+    <h3>Замовлення прийнято!</h3>
+    <p>Номер: <b id="orderNum">№ 0000</b></p>
+    <p>Передзвонимо за 5 хвилин.</p>
+    <button class="btn btn-primary" id="successOk">Готово</button>
+  </div>
+</aside>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="js/data.js"></script>
 <script src="js/app.js"></script>
 </body>

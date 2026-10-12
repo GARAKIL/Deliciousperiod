@@ -1,56 +1,235 @@
-/* стилі для сайту */
-body {
-  font-family: Arial, sans-serif;
-  background: #fff8ee;
-  margin: 0;
+/* Смачно і крапка — прості стилі */
+/* кольори: білий і бежевий */
+:root{
+  --bg:#FFFEFB;
+  --fg:#3A332C;
+  --card:#fff;
+  --primary:#C2A377;      /* кнопки */
+  --primary-h:#AB8C5F;    /* кнопки при наведенні */
+  --secondary:#F2E8D3;    /* бежевий */
+  --muted:#FAF6EC;        /* світлі плашки */
+  --text:#7C7166;         /* звичайний текст */
+  --price:#A08660;        /* ціни */
+  --border:#E7DCC4;       /* рамки */
+  --green:#7FB98A;
 }
 
-header {
-  background: #e8dccb;
-  padding: 15px;
-  text-align: center;
+*{margin:0;padding:0;box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth;scrollbar-gutter:stable}
+body{font-family:'Manrope',Arial,sans-serif;background:var(--bg);color:var(--text)}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit}
+h1,h2,h3{color:var(--fg)}
+
+/* кнопки */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  border-radius:12px;padding:11px 18px;font-weight:800;font-size:14px;
+  border:1px solid transparent;cursor:pointer;background:none;color:var(--fg)}
+.btn:active{transform:scale(.97)}
+.btn-primary{background:var(--primary);color:#fff}
+.btn-primary:hover{background:var(--primary-h)}
+.btn-outline{border-color:var(--border)}
+.btn-outline:hover{background:var(--muted)}
+.btn-ghost:hover{background:var(--muted)}
+.btn-light{background:#FFFEFB}
+.btn-light:hover{background:#fff}
+.btn-icon{width:40px;height:40px;padding:0;border-color:var(--border);background:#fff}
+.btn-lg{height:52px;padding:0 28px;font-size:15px}
+.btn-full{width:100%}
+.btn-tab{background:#fff;border-color:var(--border)}
+.btn-tab.active{background:var(--fg);color:#fff;border-color:var(--fg)}
+.btn-burger{display:none;font-size:20px}
+@media(max-width:767px){.btn-burger{display:inline-flex}}
+
+/* шапка */
+.header{position:sticky;top:0;z-index:50;background:var(--bg);border-bottom:1px solid var(--border)}
+.header-inner{max-width:1280px;margin:0 auto;height:72px;padding:0 16px;
+  display:flex;align-items:center;justify-content:space-between;gap:12px}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-img{width:40px;height:40px;border-radius:12px;object-fit:cover;border:1px solid var(--border)}
+.logo-text{font-weight:800;font-size:17px;line-height:1.15;color:var(--fg)}
+.logo-accent{color:var(--primary)}
+.nav{display:flex;gap:28px}
+.nav a{font-weight:700;font-size:14px;color:var(--fg)}
+.nav a:hover{color:var(--primary)}
+@media(max-width:767px){.nav{display:none}}
+.header-actions{display:flex;gap:8px;align-items:center}
+.cart-badge{background:var(--fg);color:#fff;font-size:11px;min-width:20px;height:20px;
+  border-radius:99px;display:inline-flex;align-items:center;justify-content:center;padding:0 6px}
+.mobile-nav{display:none;border-top:1px solid var(--border);padding:6px 16px}
+.mobile-nav.open{display:block}
+.mobile-nav a{display:block;padding:12px 0;font-weight:800;color:var(--fg);border-bottom:1px solid var(--muted)}
+.mobile-nav a:last-child{border-bottom:0}
+
+/* герой */
+.hero{position:relative;min-height:560px;background:var(--secondary);overflow:hidden}
+@media(min-width:768px){.hero{min-height:620px}}
+.hero-img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:65% center}
+.hero-shade{position:absolute;top:0;left:0;width:100%;height:100%;
+  background:linear-gradient(to right,#FFFEFB 20%,rgba(255,254,251,.9) 45%,transparent 80%)}
+.hero-inner{position:relative;max-width:1280px;margin:0 auto;min-height:560px;
+  display:flex;align-items:center;padding:60px 16px}
+@media(min-width:768px){.hero-inner{min-height:620px;padding:60px 32px}}
+.hero-content{max-width:540px}
+.hero-pill{display:inline-block;background:#fff;border:1px solid var(--border);border-radius:99px;
+  padding:8px 16px;font-size:12px;font-weight:800;text-transform:uppercase;color:var(--fg);margin-bottom:18px}
+.hero h1{font-size:48px;line-height:1;margin:0 0 16px}
+@media(min-width:640px){.hero h1{font-size:68px}}
+.hero h1 .accent{color:var(--primary)}
+.hero-sub{font-size:16px;line-height:1.6;max-width:420px}
+.hero-btns{display:flex;gap:12px;margin-top:24px;flex-wrap:wrap}
+.btn-hero-ghost{border-color:var(--fg);background:rgba(255,255,255,.6);height:52px;padding:0 28px}
+.btn-hero-ghost:hover{background:#fff}
+
+/* секції */
+.section{max-width:1280px;margin:0 auto;padding:64px 16px}
+@media(min-width:1024px){.section{padding:64px 32px}}
+.section-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:14px;margin-bottom:28px}
+.eyebrow{color:var(--primary);font-size:13px;font-weight:800;text-transform:uppercase;margin-bottom:6px}
+.section-head h2{font-size:32px}
+@media(min-width:640px){.section-head h2{font-size:44px}}
+.section-note{max-width:340px;font-size:14px}
+
+/* вкладки */
+.tabs{display:flex;gap:8px;overflow-x:auto;padding-bottom:8px;margin-bottom:24px}
+.tabs .btn{flex-shrink:0}
+
+/* картки меню */
+.grid{display:grid;gap:16px}
+@media(min-width:640px){.grid{grid-template-columns:1fr 1fr}}
+@media(min-width:1024px){.grid{grid-template-columns:1fr 1fr 1fr}}
+.card{background:var(--card);border:1px solid var(--border);border-radius:20px;overflow:hidden}
+.card:hover{border-color:var(--primary)}
+.card-img{position:relative;background:var(--muted)}
+.card-img img{width:100%;aspect-ratio:4/3;object-fit:cover}
+.card:hover .card-img img{transform:scale(1.04)}
+.card-img img{transition:transform .3s}
+.card-badge{position:absolute;left:12px;top:12px;background:#fff;border:1px solid var(--border);
+  border-radius:99px;padding:5px 13px;font-size:12px;font-weight:800;color:var(--fg)}
+.card-body{padding:18px}
+.card-body h3{font-size:19px;margin-bottom:4px}
+.card-desc{font-size:14px;min-height:42px}
+.card-row{display:flex;align-items:center;justify-content:space-between;margin-top:14px}
+.card-price{font-size:20px;font-weight:800;color:var(--price)}
+.stepper{display:flex;align-items:center;gap:10px;background:var(--muted);border-radius:99px;padding:3px 6px}
+.stepper b{color:var(--fg);min-width:18px;text-align:center}
+.qty-btn{width:28px;height:28px;border-radius:50%;border:0;background:none;cursor:pointer;font-size:16px;font-weight:800;color:var(--fg)}
+.qty-btn:hover{background:#fff}
+.qty-btn.plus{color:var(--primary)}
+
+/* акції */
+.offers{background:var(--muted);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:64px 0}
+.offers-inner{max-width:1280px;margin:0 auto;padding:0 16px}
+@media(min-width:1024px){.offers-inner{padding:0 32px}}
+.offers-hint{display:none;font-size:14px}
+@media(min-width:768px){.offers-hint{display:block}}
+.offers-grid{display:grid;gap:16px}
+@media(min-width:768px){.offers-grid{grid-template-columns:1fr 1fr}}
+.offer{position:relative;border-radius:20px;padding:28px;overflow:hidden;min-height:280px;border:1px solid var(--border)}
+.offer-dark{background:#8A7A63;color:#FBF6EC;border-color:#8A7A63}
+.offer-dark h3{color:#fff}
+.offer-beige{background:var(--secondary)}
+.offer-txt{position:relative;z-index:2;max-width:320px}
+.offer-top{font-size:12px;font-weight:800;text-transform:uppercase;color:var(--primary)}
+.offer-dark .offer-top{color:var(--secondary)}
+.offer h3{font-size:30px;margin:12px 0 8px}
+.offer p{font-size:14px;margin-bottom:20px}
+.offer-img{position:absolute;right:-60px;bottom:-70px;width:250px;height:250px;border-radius:50%;object-fit:cover;border:5px solid rgba(255,255,255,.6)}
+@media(max-width:767px){.offer-img{width:160px;height:160px;right:-40px;bottom:-50px}.offer h3{font-size:24px}}
+
+/* ресторани з картою */
+.rest-box{display:grid;background:#fff;border:1px solid var(--border);border-radius:20px;overflow:hidden}
+@media(min-width:1024px){.rest-box{grid-template-columns:340px 1fr}}
+.rest-left{padding:18px;border-bottom:1px solid var(--border)}
+@media(min-width:1024px){.rest-left{border-bottom:0;border-right:1px solid var(--border)}}
+.search-wrap{margin-bottom:12px;display:flex;gap:8px}
+.search-wrap input{flex:1;min-width:0;height:46px;border:1px solid var(--border);border-radius:12px;padding:0 14px;
+  font-size:14px;font-family:inherit;color:var(--fg)}
+.search-wrap input:focus{border-color:var(--primary);outline:none}
+.rest-list{display:flex;flex-direction:column;gap:8px;max-height:320px;overflow-y:auto}
+.rest-item{width:100%;text-align:left;background:#fff;border:1px solid var(--border);border-radius:12px;
+  padding:14px;cursor:pointer;font-family:inherit;color:var(--fg)}
+.rest-item:hover{border-color:var(--primary)}
+.rest-item.selected{border-color:var(--primary);background:var(--muted)}
+.rest-item b{font-size:15px}
+.rest-item small{display:block;margin-top:3px;font-size:12px;color:var(--text)}
+.rest-item .km{float:right;font-size:12px;font-weight:800;color:var(--green)}
+#geoBtn{margin-top:12px}
+.map-wrap{position:relative;min-height:400px;background:var(--muted)}
+#map{position:absolute;top:0;left:0;width:100%;height:100%;z-index:1}
+.map-card{position:absolute;left:16px;right:16px;bottom:16px;z-index:5;background:var(--bg);
+  border:1px solid var(--border);border-radius:14px;padding:14px}
+.map-label{font-size:11px;font-weight:800;text-transform:uppercase;color:var(--primary)}
+.map-row{margin-top:4px;display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap}
+.map-name{font-weight:800;color:var(--fg)}
+.map-addr{font-size:12px}
+/* мітки на карті */
+.m-pin{display:flex;width:38px;height:38px;align-items:center;justify-content:center;border-radius:50%;
+  background:var(--secondary);border:3px solid #fff;color:var(--fg)}
+.m-pin.sel{background:var(--primary);color:#fff}
+.me-dot{width:16px;height:16px;border-radius:50%;background:#2F7DE1;border:3px solid #fff}
+
+/* підвал */
+.footer{border-top:1px solid var(--border)}
+.footer-inner{max-width:1280px;margin:0 auto;padding:36px 16px;display:flex;flex-direction:column;gap:24px}
+@media(min-width:640px){.footer-inner{flex-direction:row;justify-content:space-between;align-items:flex-end}}
+.footer-note{margin-top:14px;font-size:12px;max-width:300px}
+.footer-links{display:flex;gap:20px;flex-wrap:wrap;font-size:13px;font-weight:700}
+.footer-links a{color:var(--fg)}
+.footer-links a:hover{color:var(--primary)}
+.footer-copy{font-size:12px}
+
+/* нижня панель на телефоні */
+.tabbar{display:none}
+@media(max-width:767px){
+  body{padding-bottom:64px}
+  .tabbar{position:fixed;left:0;right:0;bottom:0;z-index:40;display:grid;grid-template-columns:repeat(4,1fr);
+    background:var(--bg);border-top:1px solid var(--border);padding:8px}
+  .tabbar a,.tabbar button{background:none;border:0;font-size:11px;font-weight:700;color:var(--fg);
+    display:flex;flex-direction:column;align-items:center;gap:2px;font-family:inherit;cursor:pointer;position:relative}
+  .tab-badge{position:absolute;top:0;right:26%;background:var(--primary);color:#fff;font-size:9px;
+    width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center}
 }
 
-nav a {
-  margin: 0 10px;
-  color: black;
-}
-
-main {
-  padding: 20px;
-  max-width: 700px;
-  margin: 0 auto;
-}
-
-.hero-photo {
-  width: 100%;
-  border-radius: 10px;
-  margin: 15px 0;
-}
-
-.btn-link {
-  display: inline-block;
-  background: #b8956a;
-  color: white;
-  padding: 12px 24px;
-  border-radius: 8px;
-  text-decoration: none;
-  margin: 10px 0;
-}
-
-#grid {
-  display: grid;
-  gap: 12px;
-}
-
-.card img {
-  width: 100%;
-  border-radius: 10px 10px 0 0;
-}
-
-footer {
-  text-align: center;
-  margin-top: 30px;
-  padding: 15px;
-  background: #e8dccb;
-}
+/* кошик */
+.overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(100,85,60,.35);z-index:90}
+.overlay[hidden]{display:none}
+.drawer{position:fixed;top:0;right:0;width:100%;max-width:400px;height:100%;background:var(--bg);
+  border-left:1px solid var(--border);z-index:100;display:flex;flex-direction:column;
+  transform:translateX(105%);transition:transform .3s}
+.drawer.open{transform:none}
+@media(max-width:520px){.drawer{max-width:none;border-left:0}}
+.drawer-head{display:flex;justify-content:space-between;align-items:center;padding:18px}
+.drawer-head h2{font-size:20px}
+.drawer-sub{font-size:12px;margin-top:2px}
+.drawer-body{flex:1;overflow-y:auto;padding:0 18px 18px;display:flex;flex-direction:column}
+.cart-list{display:flex;flex-direction:column}
+.cart-row{display:flex;gap:12px;padding:14px 0;border-bottom:1px solid var(--border)}
+.cart-row img{width:56px;height:56px;border-radius:12px;object-fit:cover;background:var(--muted)}
+.cart-row .grow{flex:1}
+.row-top{display:flex;justify-content:space-between;gap:8px}
+.cart-row h4{font-size:14px;color:var(--fg)}
+.rm{border:0;background:none;font-size:20px;color:#C9BDA8;cursor:pointer;line-height:1}
+.rm:hover{color:red}
+.unit{font-size:12px;margin-top:2px}
+.row-bot{display:flex;justify-content:space-between;align-items:center;margin-top:10px}
+.line-total{font-weight:800;color:var(--fg);font-size:15px}
+.drawer-foot{border-top:1px solid var(--border);margin-top:14px;padding-top:14px;display:flex;flex-direction:column;gap:10px}
+.total-row{display:flex;justify-content:space-between;font-size:18px;font-weight:800;color:var(--fg)}
+.total-row.small{font-size:13px;font-weight:600;color:var(--text)}
+.delivery-hint{font-size:11px;text-align:center}
+.link-quiet{border:0;background:none;color:var(--text);font-size:13px;font-weight:700;cursor:pointer}
+.link-quiet:hover{color:var(--primary);text-decoration:underline}
+.cart-empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;padding:40px 0}
+.cart-empty b{color:var(--fg);font-size:17px}
+.field{display:block;font-size:12px;font-weight:700;color:var(--fg);margin-top:16px}
+.field input{display:block;width:100%;height:48px;margin-top:6px;border:1px solid var(--border);border-radius:12px;
+  padding:0 14px;font-size:14px;font-family:inherit}
+.field input:focus{border-color:var(--primary);outline:none}
+.success{text-align:center;align-items:center;justify-content:center}
+.success-check{width:72px;height:72px;border-radius:50%;background:var(--green);color:#fff;font-size:30px;
+  display:flex;align-items:center;justify-content:center}
+.success h3{margin-top:16px;font-size:24px}
+.success .btn{margin-top:28px}
