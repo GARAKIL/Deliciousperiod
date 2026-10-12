@@ -1,10 +1,7 @@
-// кошик: id товару -> кількість
-let cart = {};
+﻿let cart = {};
 let activeCat = "all";
 let RESTS = [];
 let selectedRest = 0;
-
-// показати товари
 function renderMenu() {
   const grid = document.getElementById("grid");
   grid.innerHTML = "";
@@ -28,8 +25,6 @@ function renderMenu() {
     grid.appendChild(card);
   });
 }
-
-// відстань між точками в км
 function distKm(lat1, lon1, lat2, lon2) {
   const R = 6371;
   const dLat = (lat2 - lat1) * Math.PI / 180;
@@ -39,8 +34,6 @@ function distKm(lat1, lon1, lat2, lon2) {
     Math.sin(dLon / 2) * Math.sin(dLon / 2);
   return 2 * R * Math.asin(Math.sqrt(a));
 }
-
-// запит з таймаутом — щоб ніколи не висіти вічно
 async function fetchJSON(url, ms) {
   const ctrl = new AbortController();
   const t = setTimeout(() => ctrl.abort(), ms || 6000);
@@ -53,15 +46,11 @@ async function fetchJSON(url, ms) {
     clearTimeout(t);
   }
 }
-
-// дізнатись місто по IP (приблизно, іноді помиляється)
 async function detectByIP() {
   const j = await fetchJSON("https://ipapi.co/json/", 6000);
   if (j && j.latitude && j.longitude) return { lat: j.latitude, lon: j.longitude, city: j.city };
   return null;
 }
-
-// точна геолокація через браузер (з таймаутом, щоб не висіти)
 function detectGPS(timeout) {
   return new Promise(ok => {
     if (!navigator.geolocation) return ok(null);
@@ -74,8 +63,6 @@ function detectGPS(timeout) {
     );
   });
 }
-
-// карта
 let map = null;
 let markers = [];
 let meMarker = null;
@@ -92,14 +79,13 @@ function pinIcon(selected) {
 let pinClicked = false;
 
 function initMap(center) {
-  if (!window.L) return; // карта не завантажилась (нема інтернету) — список все одно працює
+  if (!window.L) return;
   if (!map) {
     map = L.map("map", { scrollWheelZoom: false }).setView([center.lat, center.lon], 13);
     L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
       maxZoom: 19,
       attribution: "© OpenStreetMap"
     }).addTo(map);
-    // клік по карті = "я тут"
     map.on("click", e => {
       if (pinClicked) return;
       const pos = { lat: e.latlng.lat, lon: e.latlng.lng, city: "" };
@@ -123,13 +109,10 @@ function initMap(center) {
     });
     markers.push(m);
   });
-  // показати всі точки разом, а не одну
   const bounds = L.latLngBounds([[center.lat, center.lon]]);
   RESTS.forEach(r => bounds.extend([r.lat, r.lon]));
   map.fitBounds(bounds.pad(0.25));
 }
-
-// список ресторанів
 function renderRests(filter) {
   const box = document.getElementById("restList");
   box.innerHTML = "";
@@ -153,8 +136,6 @@ function selectRest(i, pan) {
   markers.forEach((m, j) => m.setIcon(pinIcon(j === selectedRest)));
   if (pan !== false && map) map.panTo([r.lat, r.lon], { animate: true });
 }
-
-// дізнатись справжню назву села по координатах
 async function reverseName(lat, lon) {
   const j = await fetchJSON("https://nominatim.openstreetmap.org/reverse?format=json&addressdetails=1&accept-language=uk&lat=" + lat + "&lon=" + lon, 6000);
   if (!j) return { place: "", road: "" };
@@ -164,8 +145,6 @@ async function reverseName(lat, lon) {
     road: a.road || ""
   };
 }
-
-// підписати ресторани справжніми селами навколо
 async function fillPlaceNames() {
   await Promise.all(RESTS.map(async r => {
     const n = await reverseName(r.lat, r.lon);
@@ -178,8 +157,6 @@ async function fillPlaceNames() {
   renderRests(document.getElementById("restSearch").value);
   selectRest(selectedRest, false);
 }
-
-// збережене вручну місце (щоб не питати щоразу)
 function saveCenter(p) {
   try { localStorage.setItem("mypos", JSON.stringify(p)); } catch (e) {}
 }
@@ -189,8 +166,6 @@ function loadCenter() {
     return s ? JSON.parse(s) : null;
   } catch (e) { return null; }
 }
-
-// поставити центр і перебудувати все
 function applyCenter(pos, msg) {
   document.getElementById("geoNote").textContent = msg;
   RESTS = REST_DEFS.map(d => {
@@ -203,11 +178,8 @@ function applyCenter(pos, msg) {
   initMap(pos);
   renderRests("");
   selectRest(0);
-  fillPlaceNames(); // потім підпишемо справжні села
+  fillPlaceNames();
 }
-
-// знайти ресторани поруч
-// порядок: збережене місце -> точний GPS -> приблизний IP -> Київ
 async function locate(fromButton) {
   const note = document.getElementById("geoNote");
   if (!fromButton) {
@@ -231,10 +203,6 @@ async function locate(fromButton) {
   }
   applyCenter({ lat: FALLBACK_POS.lat, lon: FALLBACK_POS.lon }, "Не вийшло визначити місце — показуємо Київ.");
 }
-
-// TODO: ручне введення села потім допишу
-
-// скільки всього і на яку суму
 function cartCount() {
   let n = 0;
   for (const id in cart) n += cart[id];
@@ -245,8 +213,6 @@ function cartSum() {
   PRODUCTS.forEach(p => { s += p.price * (cart[p.id] || 0); });
   return s;
 }
-
-// перемалювати кошик
 function renderCart() {
   const n = cartCount();
   const sum = cartSum();
@@ -278,8 +244,6 @@ function renderCart() {
   document.getElementById("cartTotal").textContent = (sum + del) + " ₴";
   renderMenu();
 }
-
-// всі кліки
 document.addEventListener("click", e => {
   const inc = e.target.closest("[data-inc]");
   const dec = e.target.closest("[data-dec]");
@@ -312,8 +276,6 @@ document.addEventListener("click", e => {
     openCart();
   }
 });
-
-// вкладки категорій
 document.querySelectorAll("#tabs .btn-tab").forEach(btn => {
   btn.onclick = () => {
     document.querySelectorAll("#tabs .btn-tab").forEach(b => b.classList.remove("active"));
@@ -322,8 +284,6 @@ document.querySelectorAll("#tabs .btn-tab").forEach(btn => {
     renderMenu();
   };
 });
-
-// пошук ресторанів
 document.getElementById("restSearch").addEventListener("input", e => renderRests(e.target.value));
 document.getElementById("geoBtn").onclick = () => locate(true);
 document.getElementById("orderHere").onclick = () => {
@@ -331,8 +291,6 @@ document.getElementById("orderHere").onclick = () => {
   if (r) document.getElementById("fAddr").value = r.name + ", " + r.addr;
   openCart();
 };
-
-// кошик відкрити / закрити
 const drawer = document.getElementById("drawer");
 const overlay = document.getElementById("overlay");
 function openCart() {
@@ -359,8 +317,6 @@ overlay.onclick = closeCart;
 document.addEventListener("keydown", e => {
   if (e.key === "Escape") closeCart();
 });
-
-// замовити — все в одному місці
 document.getElementById("orderForm").onsubmit = e => {
   e.preventDefault();
   document.getElementById("orderNum").textContent = "№ " + Math.floor(1000 + Math.random() * 9000);
@@ -373,8 +329,6 @@ document.getElementById("successOk").onclick = () => {
   closeCart();
   setTimeout(() => showStep("cart"), 300);
 };
-
-// меню на телефоні
 document.getElementById("burgerBtn").onclick = () => {
   const nav = document.getElementById("mobileNav");
   nav.classList.toggle("open");
@@ -386,7 +340,6 @@ document.querySelectorAll("#mobileNav a").forEach(a => {
     document.getElementById("burgerBtn").textContent = "☰";
   };
 });
-
-// старт
 renderCart();
 locate(false);
+
